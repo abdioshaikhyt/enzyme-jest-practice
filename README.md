@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# Enzyme & Jest Practice
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A practice project for learning React component testing fundamentals using Jest and Enzyme.
 
-## Available Scripts
+## Why React 16?
 
-In the project directory, you can run:
+Enzyme does not support React 18 or 19. To learn Enzyme properly, this project runs on **React 16** instead of the latest version, allowing the use of `enzyme-adapter-react-16`.
 
-### `npm start`
+## Compatibility Fixes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Setting up Enzyme alongside a modern `create-react-app` toolchain surfaced several Node.js compatibility issues that aren't well documented. These are solved in `src/setupTests.js`:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `TextDecoder` / `TextEncoder` not defined
+- `ReadableStream` / `WritableStream` / `TransformStream` not defined
+- `MessageChannel` / `MessagePort` not defined
+- `cheerio` version conflict with Enzyme's internal dependency (resolved by pinning `cheerio@1.0.0-rc.12`)
 
-### `npm test`
+If you're hitting similar errors trying to run Enzyme on a modern Node/React setup, check `src/setupTests.js` for the polyfills used.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup
 
-### `npm run build`
+```bash
+npm install --legacy-peer-deps
+npm run test
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The `--legacy-peer-deps` flag is required because `@testing-library/react` (installed by default with `create-react-app`) expects React 18/19, conflicting with the React 16 downgrade.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## What's Tested
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `Track` component
+- Renders track details (name, artist, album, artwork)
+- Displays correct button text based on playlist state ("Add" / "Added")
+- Disables the Add button when the track is already in the playlist
+- Calls `addTrack` when the Add button is clicked
+- Conditionally renders the Remove button based on props
+- Calls `removeTrack` when the Remove button is clicked
 
-### `npm run eject`
+### `SearchBar` component
+- Renders the form, input, and submit button
+- Updates input value on user typing (controlled input)
+- Calls `onSearch` with the input value on valid submission
+- Does NOT call `onSearch` when input is empty or whitespace
+- Renders the submit button with the correct label
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tools Used
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [Jest](https://jestjs.io/) — test runner and assertion library
+- [Enzyme](https://enzymejs.github.io/enzyme/) — React component testing utilities
+- `enzyme-adapter-react-16` — adapter for React 16 compatibility
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Notes
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This is a learning project, not a production app. The goal was to build solid fundamentals in component testing — render checks, prop validation, simulated user events, and conditional rendering — before moving on to modern tooling like React Testing Library.

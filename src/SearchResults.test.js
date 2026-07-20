@@ -35,5 +35,8 @@ describe("it should test the functionality of the SearchResults component", () =
         const wrapper = shallow(<SearchResults  tracks = {mockMultipleTracks} addTrack = {mockAddTrack} isInPlayList={mockIsInPlayList}/>);
         expect(wrapper.find('TrackList').props()).toEqual(props);
     });
-   
+it("should render the correct number of tracks", () => {
+    const wrapper = shallow(<SearchResults  tracks = {mockMultipleTracks} addTrack = {mockAddTrack} isInPlayList={mockIsInPlayList}/>);
+    expect(wrapper.find('TrackList').prop('tracks')).toHaveLength(mockMultipleTracks.length);
+})
 });

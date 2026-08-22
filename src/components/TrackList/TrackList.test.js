@@ -1,9 +1,9 @@
 import React from "react";
 import TrackList from "./TrackList";
 import { shallow } from "enzyme";
-import theGoat from "./Images/thegoat.jpg";
-import dieALegend from "./Images/die-a-legend.jpg";
-import Track from "./Track";
+import theGoat from "../../Images/thegoat.jpg";
+import dieALegend from "../../Images/die-a-legend.jpg";
+import Track from "../Track/Track";
 describe("it should render a tracklist ", () => {
     const mockAddTrack = jest.fn();
     const mockIsInPlayListTrue = () => true;

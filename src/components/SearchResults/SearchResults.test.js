@@ -1,8 +1,8 @@
 import SearchResults from "./SearchResults";
 import { shallow, mount } from "enzyme";
 import React from 'react';
-import theGoat from "./Images/thegoat.jpg";
-import dieALegend from "./Images/die-a-legend.jpg";
+import theGoat from "../../Images/thegoat.jpg";
+import dieALegend from "../../Images/die-a-legend.jpg";
 
 describe("it should test the functionality of the SearchResults component", () => {
     const mockAddTrack = jest.fn();

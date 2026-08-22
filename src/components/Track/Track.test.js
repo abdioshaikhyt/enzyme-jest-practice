@@ -1,7 +1,7 @@
 import React from "react";
 import Track from "./Track";
 import { shallow } from "enzyme";
-import theGoat from "./Images/thegoat.jpg";
+import theGoat from "../../Images/thegoat.jpg";
 
 describe("it should render a track", () => {
     const mockAddTrack = jest.fn();
@@ -59,5 +59,11 @@ describe("it should render a track", () => {
      const wrapper = shallow(<Track track={mockTrack} addTrack={mockAddTrack} isInPlayList={mockIsInPlayList} removeTrack={mockRemoveTrack}/>);
      wrapper.find('button').at(1).simulate('click');
      expect(mockRemoveTrack).toHaveBeenCalledWith(mockTrack);
+    })
+
+    it("calls addTrack wehn add button is clicked", () => {
+        const wrapper = shallow(<Track track={mockTrack} addTrack={mockAddTrack} isInPlayList={mockIsInPlayList}/>);
+        wrapper.find('button').at(0).simulate('click');
+        expect(mockAddTrack).toHaveBeenCalledWith(mockTrack);
     })
 });

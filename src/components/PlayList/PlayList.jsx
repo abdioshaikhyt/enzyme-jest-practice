@@ -1,4 +1,4 @@
-import TrackList from './trackList';
+import TrackList from '../TrackList/TrackList';
 
 function PlayList(props) {
     return (

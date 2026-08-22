@@ -1,9 +1,9 @@
 import PlayList from "./PlayList";
 import React from "react";
 import { shallow, mount } from "enzyme";
-import theGoat from "./Images/thegoat.jpg";
-import dieALegend from "./Images/die-a-legend.jpg";
-import TrackList from "./trackList";
+import theGoat from "../../Images/thegoat.jpg";
+import dieALegend from "../../Images/die-a-legend.jpg";
+import TrackList from "../TrackList/TrackList";
 
 describe("it should test the PlayList component functionality", () => {
     const mockIsInPlayList = () => false;

@@ -1,5 +1,4 @@
 import PlayList from "./PlayList";
-import React from "react";
 import { shallow, mount } from "enzyme";
 import theGoat from "../../Images/thegoat.jpg";
 import dieALegend from "../../Images/die-a-legend.jpg";

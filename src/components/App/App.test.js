@@ -3,6 +3,13 @@ import { shallow, mount } from "enzyme";
 import App from "./App";
 import theGoat from "../../Images/thegoat.jpg";
 import dieALegend from "../../Images/die-a-legend.jpg";
+
+ function runAllPromises() {
+            return new Promise((resolve) => {
+                setImmediate(resolve);
+            })
+        }
+
 describe( "it should test the full functionality of the App file",() => {
 
      const mockTrack = {
@@ -19,7 +26,7 @@ describe( "it should test the full functionality of the App file",() => {
                         collectionName: "Die A Legend", 
                         artworkUrl100: theGoat };
 
-
+    const mockTracks = [mockTrack, mockTrackTwo];
     it("is testing whenever an empty string is passed in to validateFileName it should return playlist",()=> {
         expect(validateFileName("")).toEqual("playlist");
     })
@@ -56,5 +63,19 @@ describe( "it should test the full functionality of the App file",() => {
         addTrackFn(mockTrack);
         const isInPlayListFn = wrapper.find('PlayList').prop('isInPlayList');
         expect(isInPlayListFn(mockTrackTwo)).toEqual(false);
+    })
+    it("should return a valid data object when the fetch request is okay", async () => {
+        const wrapper = shallow(<App/>);
+        const handleSearchSubmitFn = wrapper.find('SearchBar').prop('onSearch');
+        global.fetch = jest.fn(() => {
+           return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({results: [mockTracks]})
+            })
+        })
+        handleSearchSubmitFn('Polo G');
+        await runAllPromises();
+        wrapper
+        expect(wrapper.find('SearchResults').prop('tracks')).toEqual([mockTracks]);
     })
 })

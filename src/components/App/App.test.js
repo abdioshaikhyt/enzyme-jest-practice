@@ -4,7 +4,7 @@ import App from "./App";
 import theGoat from "../../Images/thegoat.jpg";
 import dieALegend from "../../Images/die-a-legend.jpg";
 
- function runAllPromises() {
+ async function runAllPromises() {
             return new Promise((resolve) => {
                 setImmediate(resolve);
             })
@@ -75,7 +75,34 @@ describe( "it should test the full functionality of the App file",() => {
         })
         handleSearchSubmitFn('Polo G');
         await runAllPromises();
-        wrapper
         expect(wrapper.find('SearchResults').prop('tracks')).toEqual([mockTracks]);
+    })
+    it("renders an error message when the search request fails", async () => {
+         const wrapper = shallow(<App/>);
+        const handleSearchSubmitFn = wrapper.find('SearchBar').prop('onSearch');
+        global.fetch = jest.fn(() => {
+           return Promise.resolve({
+                ok: false,
+                json: () => Promise.resolve({results: [mockTracks]})
+            })
+        })
+        handleSearchSubmitFn('Polo G');
+        await runAllPromises();
+        expect(wrapper.find('p').filterWhere(p => p.text() === "Something went wrong. Please try again.")).toHaveLength(1);
+    })
+
+    it("displays a loading message while the search request is in progress", async () => {
+         const wrapper = shallow(<App/>);
+        const handleSearchSubmitFn = wrapper.find('SearchBar').prop('onSearch');
+        global.fetch = jest.fn(() => {
+           return Promise.resolve({
+                ok: false,
+                json: () => Promise.resolve({results: [mockTracks]})
+            })
+        })
+        handleSearchSubmitFn('Polo G');
+        expect(wrapper.find('p').filterWhere(p => p.text() === "Searching...")).toHaveLength(1);
+        await runAllPromises();
+        
     })
 })

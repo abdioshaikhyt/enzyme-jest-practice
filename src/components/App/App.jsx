@@ -9,13 +9,7 @@ function validateFileName(fileName) {
   return safeFileName;
 }
 
- function addTrack(track) {
-    if (playlist.some(t => t.trackId === track.trackId)) {
-      return;
-    }
-
-    setPlaylist(prev => [...prev, track]);
-  }
+ 
 
 function App() {
   const [playlist, setPlaylist] = useState([]);
@@ -161,4 +155,4 @@ function App() {
 }
 
 export default App;
-export { validateFileName, addTrack };
+export { validateFileName };

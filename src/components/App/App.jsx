@@ -9,7 +9,7 @@ function validateFileName(fileName) {
   return safeFileName;
 }
 
- 
+
 
 function App() {
   const [playlist, setPlaylist] = useState([]);

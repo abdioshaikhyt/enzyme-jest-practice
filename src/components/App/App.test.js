@@ -39,6 +39,15 @@ describe( "it should test the full functionality of the App file",() => {
         addTrackFn(mockTrack);
         expect(wrapper.find('PlayList').prop('tracks')).toEqual(expect.arrayContaining([mockTrack]));
     })
+    
+    it("tests the addTrack functionality doesnt add a track when it is the same track in the array already", () => {
+        const wrapper = shallow(<App/>);
+        const addTrackFn = wrapper.find('SearchResults').prop('addTrack');
+        addTrackFn(mockTrack);
+        wrapper.update();
+        wrapper.find('SearchResults').prop('addTrack')(mockTrack);
+        expect(wrapper.find('PlayList').prop('tracks')).toHaveLength(1);
+    })
 
     it("tests that removeTrack removes a track from the playlist state", ()  => {
          const wrapper = shallow(<App/>);
@@ -47,6 +56,21 @@ describe( "it should test the full functionality of the App file",() => {
         const removeTrackFn = wrapper.find('PlayList').prop('removeTrack');
         removeTrackFn(mockTrack);
         expect(wrapper.find('PlayList').prop('tracks')).toHaveLength(0);
+    })
+        it("tests that handleNameChange updates the playlistName state", () => {
+        const wrapper = shallow(<App/>);
+        const handleNameChangeFn = wrapper.find('PlayList').prop('onNameChange');
+        handleNameChangeFn("My New Playlist");
+        wrapper.update();
+        expect(wrapper.find('PlayList').prop('playlistName')).toEqual("My New Playlist");
+    })
+
+    it("resets searchResults to an empty array when searchTerm is empty or whitespace", () => {
+        const wrapper = shallow(<App/>);
+        const handleSearchSubmitFn = wrapper.find('SearchBar').prop('onSearch');
+        handleSearchSubmitFn('   ');
+        wrapper.update();
+        expect(wrapper.find('SearchResults').prop('tracks')).toEqual([]);
     })
 
     it("tests the isInPlayList functionality when an expect track is in the PlayList", () => {
